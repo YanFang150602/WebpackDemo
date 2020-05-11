@@ -3,6 +3,8 @@ import "./style/index.css";
 import "./style/scssdex.scss";
 import avatar from "./image/avatar.jpg";
 
+console.log("运行的环境是：" + process.env.NODE_ENV);
+
 function createElement() {
     let dom = document.createElement("div");
     dom.innerHTML = _.join(["学习webpack","第一天"]," ");

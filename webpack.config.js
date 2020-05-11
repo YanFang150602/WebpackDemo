@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require('webpack');
 
 module.exports = {
     mode: "development",
@@ -36,5 +37,12 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    plugins: [
+        // 定义全局变量
+        new webpack.DefinePlugin({
+            PRODUCTION: true,
+            'process.env.NODE_ENV': process.env.NODE_ENV
+        })
+    ]
 }
