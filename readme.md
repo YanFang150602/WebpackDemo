@@ -46,5 +46,9 @@ npx webpack
 
 git init
 
+git remote add origin git@github.com:YanFang150602/WebpackDemo.git
+
+
+
 
 
