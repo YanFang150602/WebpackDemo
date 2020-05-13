@@ -27,7 +27,7 @@ npx webpack
 
 # webpack处理css模块
 
-## 1、处理css
+## 处理css
 
 在src目录下创建style目录，并创建index.css
 
@@ -70,7 +70,7 @@ module.exports = {
 npx webpack
 ```
 
-## 2、处理s(c|a)ss
+## 处理s(c|a)ss
 
 ```shell
 npm install sass-loader node-sass --save-dev
@@ -107,7 +107,56 @@ module.exports = {
 }
 ```
 
+## postcss-loader
 
+```shell
+npm i -D postcss-loader
+```
+
+新增配置文件postcss.config.js
+
+```js
+# plugins可以是object，也可以是array
+module.exports = {
+  parser: 'sugarss',
+  plugins: {
+    'postcss-import': {},
+    'postcss-preset-env': {},
+    'cssnano': {}
+  }
+}
+```
+
+```js
+module.exports = {
+    mode: "development",
+    entry: "./src/index.js",
+    output: {
+        filename: "bundle.js",
+        path: path.resolve(__dirname, "dist")
+    },
+    module: {
+        rules: [
+            {
+                test: /\.scss$/,
+                use:[
+                    "style-loader", 
+                    {
+                        loader: "css-loader",
+                        options: {
+                            importLoaders: 2
+                        }
+                    },
+                    "postcss-loader",
+                    "sass-loader"
+                ]
+            }
+        ]
+    }
+}
+```
+
+postcss-loader建议使用在css-loader/style-loader后面，使用在sass-loader前面
 
 # 将该目录设置成git仓库
 

@@ -12,21 +12,32 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use:["style-loader", "css-loader"]
+                use:[
+                    "style-loader", 
+                    {
+                        loader: "css-loader",
+                        options: {
+                            importLoaders: 1
+                        }
+                    },
+                    "postcss-loader"
+                ]
             },
             {
                 test: /\.scss$/,
-                use:["style-loader", "css-loader", "sass-loader"]
+                use:[
+                    "style-loader", 
+                    {
+                        loader: "css-loader",
+                        options: {
+                            importLoaders: 2
+                        }
+                    },
+                    "postcss-loader",
+                    "sass-loader"
+                ]
             },{
                 test: /\.(jpg|png|jpeg)$/,
-                // use: [
-                //     {
-                //         loader: "file-loader"
-                //     }
-                // ]
-
-                // loader: "file-loader"
-
                 use: {
                     loader: "url-loader",
                     options: {

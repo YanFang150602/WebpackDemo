@@ -18,6 +18,7 @@ function createElement() {
 function createImage() {
     const image = new Image();
     image.src = avatar;
+    image.classList.add("transcss");
     document.body.append(image);
 }
 
