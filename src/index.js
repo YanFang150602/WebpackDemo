@@ -9,6 +9,7 @@ function createElement() {
     let dom = document.createElement("div");
     dom.innerHTML = _.join(["学习webpack","第一天"]," ");
     //dom.className = "box";
+    dom.classList.add("boxfont");
     dom.classList.add("box");
     dom.classList.add("boxtwo");
     document.body.appendChild(dom);
