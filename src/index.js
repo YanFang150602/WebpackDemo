@@ -3,7 +3,8 @@ import "./style/index.css";
 import "./style/scssdex.scss";
 import avatar from "./image/avatar.jpg";
 
-console.log("运行的环境是：" + process.env.NODE_ENV);
+console.log("测试watch>>>");
+console.log("运行的环境是：" + PRODUCTION);
 
 function createElement() {
     let dom = document.createElement("div");
@@ -27,4 +28,4 @@ function createImage() {
 createElement();
 createImage();
 
-consele.log('error');
+// consele.log('error'); 用来验证sourceMap

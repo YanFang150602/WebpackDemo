@@ -288,4 +288,81 @@ cheap-inline-source-map与inline-source-map类似，但定位报错代码时，�
 
 cheap-module-eval-source-map常用于开发环境模式
 
-cheap-module-source-map常用于生产环境模式
+cheap-module-source-map常用于生产环境模式，会生成js.map文件
+
+# webpack-dev-server
+
+```shell
+npm install webpack-dev-server --save-dev
+```
+
+修改webpack的配置文件
+
+```js
+module.exports = {
+	...
+	devServer: {
+		contentBase: './dist',
+		port: '8081',
+		open: true // 自动打开浏览器
+	}
+	...
+}
+```
+
+修改package.json文件
+
+```json
+...
+"scripts": {
+    "bundle": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server",
+    "dev": "webpack --env.NODE_ENV=development --config webpack.config.dev.js",
+    "build": "webpack --env.NODE_ENV=production"
+ }
+ ...
+```
+
+## 利用express搭建开发服务环境
+
+```shell
+npm install express webpack-dev-middleware --save-dev
+```
+
+新建个server.js文件
+
+```js
+const express = require('express');
+const WebpackDevMiddleWare = require('webpack-dev-middleware');
+const webpack = require('webpack');
+const config = require('./webpack.config.js');
+
+const compiler = webpack(config);
+const app = express();
+
+app.use(WebpackDevMiddleWare(compiler, {
+    publicPath:'/'
+}));
+
+app.listen('3000', () => {
+    console.log('server is running!!!');
+})
+
+```
+
+修改package.json文件
+
+```
+...
+  "scripts": {
+    "bundle": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server",
+    "server": "node server.js",
+    "dev": "webpack --env.NODE_ENV=development --config webpack.config.dev.js",
+    "build": "webpack --env.NODE_ENV=production"
+  },
+...
+```
+

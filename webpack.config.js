@@ -9,6 +9,11 @@ module.exports = {
     // devtool: 'cheap-module-source-map',
     // developmet
     devtool: 'cheap-module-eval-source-map',
+    devServer: {
+        contentBase: './dist',
+        port: '8081',
+        open: true
+    },
     // entry: "./src/index.js",
     entry: {
         index: './src/index.js'
@@ -69,12 +74,15 @@ module.exports = {
     plugins: [
         // 定义全局变量
         new webpack.DefinePlugin({
-            PRODUCTION: true,
-            'process.env.NODE_ENV': process.env.NODE_ENV
+            'PRODUCTION': true,
+            'process.env.NODE_ENV': 'development'
         }),
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin({
+            // webpack --watch时，不要移除index.html
+            cleanStaleWebpackAssets: false
+        })
     ]
 }
