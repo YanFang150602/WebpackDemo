@@ -1,4 +1,5 @@
 @import './boxfont.css'; 
+@import './font/testfont.css';
 
 .box {
     color: red;

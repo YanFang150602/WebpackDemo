@@ -177,7 +177,79 @@ git push origin master
 git push -u origin master
 ```
 
+# plugins
+
+plugins帮助webpack在运行到某个时刻的时候，自动做一些事情
+
+## webpack.DefinePlugin
+
+webpack.DefinePlugin可以用来定义全局变量
+
+修改webpack的配置文件
+
+```js
+const webpack = require('webpack');
+
+module.exports = {
+    ...
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': 'production'
+        })
+    ]
+}
+```
+
+在index.js里使用webpack.DefinePlugin定义的全局变量
+
+```js
+console.log(process.env.NODE_ENV);
+```
+
+## html-webpack-plugin
+
+html-webpack-plugin会在打包结束后，自动生成一个html文件，并把打包生成的js自动引入到这个html文件中
+
+```shell
+npm i html-webpack-plugin -D
+```
+
+修改webpack的配置文件
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    ...
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'src/index.html'
+        })
+    ]
+}
+```
 
 
+
+## clean-webpack-plugin
+
+默认情况下，此插件将在每次成功重建后删除webpack的output.path目录中的所有文件以及所有未使用的webpack资产。
+
+```shell
+npm i clean-webpack-plugin -D
+```
+
+修改webpack的配置文件
+
+```js
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+module.exports = {
+    ...
+    plugins: [
+        new CleanWebpackPlugin(['dist'])
+    ]
+}
+```
 
 
