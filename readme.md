@@ -334,12 +334,15 @@ npm install express webpack-dev-middleware --save-dev
 
 ```js
 const express = require('express');
+const path = require('path');
 const WebpackDevMiddleWare = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const config = require('./webpack.config.js');
 
 const compiler = webpack(config);
 const app = express();
+
+app.use('/static', express.static(path.resolve(__dirname, 'public')));
 
 app.use(WebpackDevMiddleWare(compiler, {
     publicPath:'/'
@@ -353,7 +356,7 @@ app.listen('3000', () => {
 
 修改package.json文件
 
-```
+```json
 ...
   "scripts": {
     "bundle": "webpack",
