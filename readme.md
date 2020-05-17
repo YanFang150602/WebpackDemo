@@ -252,4 +252,40 @@ module.exports = {
 }
 ```
 
+# entry和output的基本配置
 
+```js
+module.exports = {
+	// entry: '字符串',
+    entry: {
+        key: '字符串'
+    },
+	output: {
+		filename: '[name].js',
+		path: path.resolve(__dirname, 'dist'),
+		// publicPath: 'http://www.cdn.com.cn'
+	}
+}
+```
+
+
+
+# sourceMap基本配置
+
+```js
+module.exports = {
+	...
+	devtool: 'none', // source-map
+	...
+}
+```
+
+source-map会生成一个js.map映射文件
+
+inline-source-map不会生成一个js.map映射文件，它会以dataurl的方式编译到生成的js文件底部，定位报错代码时，可以精确到行和列
+
+cheap-inline-source-map与inline-source-map类似，但定位报错代码时，精确到行
+
+cheap-module-eval-source-map常用于开发环境模式
+
+cheap-module-source-map常用于生产环境模式

@@ -5,6 +5,10 @@ const webpack = require('webpack');
 
 module.exports = {
     mode: "development",
+    // production 
+    // devtool: 'cheap-module-source-map',
+    // developmet
+    devtool: 'cheap-module-eval-source-map',
     // entry: "./src/index.js",
     entry: {
         index: './src/index.js'
