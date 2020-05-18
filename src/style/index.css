@@ -6,5 +6,9 @@
 }
 
 .transcss{
-    transform: translate(100px, 100px);
+    transform: translate(10px, 10px);
+    position: absolute;
+    width: 160px;
+    height: 100px;
+    margin-top: 120px;
 }

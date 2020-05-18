@@ -369,3 +369,40 @@ app.listen('3000', () => {
 ...
 ```
 
+## 热模块替换HMR
+
+修改webpack的配置文件
+
+```js
+...
+const webpack = require('webpack');
+
+module.exports = {
+	...
+	devServer: {
+		contentBase: './dist',
+		port: '8081',
+		open: true,
+		hot: true,
+		hotOnly: true
+	},
+	...
+	plugins: [
+		...
+		new webpack.HotModuleReplacementPlugin()
+	]
+}
+```
+
+修改js文件，页面不会自动更新，css却可以，是因为css-loader里含有module.hot对css重新加载替换（HMR），若要对应修改的js也可以重新加载替换，需增加module.hot对js的判断
+
+```js
+...
+if(module.hot) {
+    module.hot.accept('./js/number', () => {
+        document.body.removeChild(document.getElementById('number'));
+        number();
+    });
+}
+```
+
