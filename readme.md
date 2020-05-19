@@ -406,3 +406,87 @@ if(module.hot) {
 }
 ```
 
+# Babel
+
+## es6转换为es5
+
+安装
+
+```shell
+npm install --save-dev babel-loader @babel/core
+```
+
+将es6启用转换es5
+
+```shell
+npm install --save-dev @babel/preset-env
+```
+
+修改webpack的配置文件
+
+```js
+module.exports = {
+	module: {
+		rules: [
+			{
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env']
+                }
+            }
+		]
+	}
+}
+```
+
+## polyfill（补充低版本浏览器不支持的js）
+
+安装
+
+```shell
+npm install --save @babel/polyfill
+```
+
+因为这是一个polyfill（将在源代码之前运行），所以我们需要它是一个依赖项，而不是devDependency
+
+修改webpack的配置文件
+
+```js
+module.exports = {
+	...
+	module: {
+		rules: [
+			{
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                    	['@babel/preset-env',{
+                    		presets: '@babel/preset-env',
+                    		useBuiltIn: 'usage' //当设置“useBuiltIns:”usage“时，业务js在需要时会自动导入polyfill
+                    	}]
+                    ]
+                }
+            },
+            ...
+		]
+	}
+}
+```
+
+修改业务js文件
+
+```js
+//当设置“useBuiltIns:”usage“时，在需要时自动导入polyfill。              
+//请删除“import”@babel/polyfill`调用或改用“useBuiltIns:”entry'。
+import '@babel/polyfill';
+
+...
+```
+
+当设置“useBuiltIns:”usage“时，在需要时自动导入polyfill
+
+当设置“useBuiltIns:”usage“时，在业务js里，import '@babel/polyfill'
