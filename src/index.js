@@ -1,4 +1,4 @@
-import '@babel/polyfill'; //useBuiltIns:'entry'
+//import '@babel/polyfill'; //useBuiltIns:'entry'
 import { createElement, createImage} from './js/createHtml';
 import counter from './js/counter';
 import number from './js/number';

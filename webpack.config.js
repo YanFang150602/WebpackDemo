@@ -28,19 +28,24 @@ module.exports = {
     },
     module: {
         rules: [
+            // {
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     use: {
+            //         loader: 'babel-loader',
+            //         options: {
+            //             presets: [
+            //                 ['@babel/preset-env', {
+            //                     useBuiltIns: 'entry'
+            //                 }]
+            //             ]
+            //         }
+            //     } 
+            // },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['@babel/preset-env', {
-                                useBuiltIns: 'entry'
-                            }]
-                        ]
-                    }
-                } 
+                loader: 'babel-loader'
             },
             {
                 test: /\.(eot|svg|ttf|woff)$/,
