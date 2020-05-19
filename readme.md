@@ -490,3 +490,44 @@ import '@babel/polyfill';
 当设置“useBuiltIns:”usage“时，在需要时自动导入polyfill
 
 当设置“useBuiltIns:”usage“时，在业务js里，import '@babel/polyfill'
+
+## .babelrc
+
+将webpack配置文件里对js的babel-loader的options配置到.babelrc文件里
+
+新建.babelrc文件（json格式）
+
+```json
+{
+    "presets": [
+        [
+            "@babel/preset-env", 
+            {
+                "useBuiltIns": "usage",
+                "targets": {
+                    "chrome": "67"
+                }
+            }
+        ]
+    ]
+}
+```
+
+修改webpack配置文件
+
+```js
+module.exports = {
+	...
+	module: {
+		rules: [
+			{
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            },
+            ...
+		]
+	}
+}
+```
+
