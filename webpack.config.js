@@ -3,6 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
+if(process && process.env) {
+    process.env.NODE_ENV = 'development';
+}
+
 module.exports = {
     mode: "development",
     // production 
@@ -14,7 +18,7 @@ module.exports = {
         port: '8081',
         open: true, 
         hot: true,       // 开启热模块功能
-        hotOnly: true // 配置hotOnly: true时，编译失败时，不刷新页面
+        hotOnly: true    // 配置hotOnly: true时，编译失败时，不刷新页面
     },
     // entry: "./src/index.js",
     entry: {
@@ -43,7 +47,7 @@ module.exports = {
             //     } 
             // },
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
@@ -96,7 +100,10 @@ module.exports = {
         // 定义全局变量
         new webpack.DefinePlugin({
             'PRODUCTION': true,
-            'process.env.NODE_ENV': 'development'
+            'process.env': {
+                // 'NODE_ENV': '"development"'
+                'NODE_ENV': JSON.stringify('development')
+            }
         }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({

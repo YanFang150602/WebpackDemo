@@ -8,6 +8,7 @@
                     "chrome": "67"
                 }
             }
-        ]
+        ],
+        "@babel/preset-react"
     ]
 }

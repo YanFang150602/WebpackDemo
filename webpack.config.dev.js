@@ -6,6 +6,12 @@ const webpack = require('webpack');
 module.exports = env => {
     return {
         mode: "development",
+        devtool: 'cheap-module-eval-source-map',
+        devServer: {
+            contentBase: './dist',
+            port: '8082',
+            open: true
+        },
         entry: {
             test: './src/index.js',
         },
@@ -15,6 +21,11 @@ module.exports = env => {
         },
         module: {
             rules: [
+                {
+                    test: /\.(js|jsx)$/,
+                    exclude: /node_modules/,
+                    loader: 'babel-loader'
+                },
                 {
                     test: /\.(eot|svg|ttf|woff)$/,
                     use: {
@@ -58,7 +69,7 @@ module.exports = env => {
             // 定义全局变量
             new webpack.DefinePlugin({
                 PRODUCTION: true,
-                'process.env.NODE_ENV': process.env.NODE_ENV
+                'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
             }),
             new HtmlWebpackPlugin({
                 template: './src/index.html'

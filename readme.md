@@ -183,7 +183,7 @@ plugins帮助webpack在运行到某个时刻的时候，自动做一些事情
 
 ## webpack.DefinePlugin
 
-webpack.DefinePlugin可以用来定义全局变量
+DefinePlugin允许我们创建全局变量，可以在编译时进行设置，因此我们可以使用该属性来设置全局变量来区分开发环境和正式环境
 
 修改webpack的配置文件
 
@@ -194,7 +194,7 @@ module.exports = {
     ...
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': 'production'
+            'process.env.NODE_ENV': JSON.stringify('production')
         })
     ]
 }
@@ -204,6 +204,49 @@ module.exports = {
 
 ```js
 console.log(process.env.NODE_ENV);
+```
+
+### **理解 cross-env**
+
+**1. 什么是cross-env呢？**
+它是运行跨平台设置和使用环境变量的脚本。
+
+**2. 它的作用是啥？**
+
+当我们使用 NODE_ENV = production 来设置环境变量的时候，大多数windows命令会提示将会阻塞或者异常，或者，windows不支持NODE_ENV=development的这样的设置方式，会报错。package.json配置
+
+```json
+...
+"scripts": {
+  "dev": "NODE_ENV=development webpack-dev-server --progress --colors --devtool cheap-module-eval-source-map --hot --inline",
+  "build": "NODE_ENV=production webpack --progress --colors --devtool cheap-module-source-map"
+   ...
+},
+...
+```
+
+因此 cross-env 出现了。我们就可以使用 cross-env命令，这样我们就不必担心平台设置或使用环境变量了。也就是说 cross-env 能够提供一个设置环境变量的scripts，这样我们就能够以unix方式设置环境变量，然而在windows上也能够兼容的
+
+要使用该命令的话，我们首先需要在我们的项目中进行安装该命令
+
+```shell
+npm install --save-dev cross-env
+```
+
+在package.json里进行配置
+
+```json
+...
+"scripts": {
+    "bundle": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server",
+    "start2": "cross-env NODE_ENV=development webpack-dev-server --env.NODE_ENV=development --config webpack.config.dev.js",
+    "server": "node server.js",
+    "dev": "cross-env NODE_ENV=development webpack --env.NODE_ENV=development --config webpack.config.dev.js",
+    "build": "webpack --env.NODE_ENV=production"
+  },
+ ...
 ```
 
 ## html-webpack-plugin
@@ -529,5 +572,15 @@ module.exports = {
 		]
 	}
 }
+```
+
+# webpack打包react
+
+安装react
+
+```shell
+npm install react react-dom --save
+# 解析react语法
+npm install @babel/preset-react --save-dev
 ```
 
