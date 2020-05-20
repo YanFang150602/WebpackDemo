@@ -68,13 +68,16 @@ module.exports = env => {
         plugins: [
             // 定义全局变量
             new webpack.DefinePlugin({
-                PRODUCTION: true,
+                PRODUCTION: false,
                 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
             }),
             new HtmlWebpackPlugin({
                 template: './src/index.html'
             }),
             new CleanWebpackPlugin()
-        ]
+        ],
+        optimization: {
+            usedExports: true
+        }
     }
 }

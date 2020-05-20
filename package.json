@@ -7,11 +7,11 @@
   "scripts": {
     "bundle": "webpack",
     "watch": "webpack --watch",
-    "start": "webpack-dev-server",
+    "start": "cross-env NODE_ENV=development webpack-dev-server",
     "start2": "cross-env NODE_ENV=development webpack-dev-server --env.NODE_ENV=development --config webpack.config.dev.js",
     "server": "node server.js",
     "dev": "cross-env NODE_ENV=development webpack --env.NODE_ENV=development --config webpack.config.dev.js",
-    "build": "webpack --env.NODE_ENV=production"
+    "build": "cross-env NODE_ENV=production webpack  --config webpack.config.prod.js"
   },
   "keywords": [],
   "author": "",
