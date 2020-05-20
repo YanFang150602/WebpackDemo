@@ -18,7 +18,7 @@ number();
 
 babelES6();
 
-add(1, 3);
+add(61, 3);
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 

@@ -14,7 +14,7 @@ module.exports = {
         port: '8081',
         open: true, 
         hot: true,       // 开启热模块功能
-        hotOnly: true    // 配置hotOnly: true时，编译失败时，不刷新页面
+        //hotOnly: true    // 配置hotOnly: true时，编译后不刷新页面
     },
     // entry: './src/index.js',
     entry: {
