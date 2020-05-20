@@ -5,13 +5,13 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "bundle": "webpack",
-    "watch": "webpack --watch",
-    "start": "cross-env NODE_ENV=development webpack-dev-server",
-    "start2": "cross-env NODE_ENV=development webpack-dev-server --env.NODE_ENV=development --config webpack.config.dev.js",
+    "bundle": "webpack --config ./build/webpack.config.js",
+    "watch": "webpack --watch --config ./build/webpack.config.js",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.config.js",
+    "start2": "cross-env NODE_ENV=development webpack-dev-server --env.NODE_ENV=development --config ./build/webpack.config.dev.js",
     "server": "node server.js",
-    "dev": "cross-env NODE_ENV=development webpack --env.NODE_ENV=development --config webpack.config.dev.js",
-    "build": "cross-env NODE_ENV=production webpack  --config webpack.config.prod.js"
+    "dev": "cross-env NODE_ENV=development webpack --env.NODE_ENV=development --config ./build/webpack.config.dev.js",
+    "build": "cross-env NODE_ENV=production webpack  --config ./build/webpack.config.prod.js"
   },
   "keywords": [],
   "author": "",
@@ -36,7 +36,8 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.7.2",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
