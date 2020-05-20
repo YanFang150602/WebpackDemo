@@ -3,10 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
-if(process && process.env) {
-    process.env.NODE_ENV = 'development';
-}
-
 module.exports = {
     mode: "development",
     // production 
@@ -113,5 +109,8 @@ module.exports = {
             // webpack --watch时，不要移除index.html
             cleanStaleWebpackAssets: false
         })
-    ]
+    ],
+    optimization: {
+        usedExports: true
+    }
 }

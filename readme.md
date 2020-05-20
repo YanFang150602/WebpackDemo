@@ -584,3 +584,65 @@ npm install react react-dom --save
 npm install @babel/preset-react --save-dev
 ```
 
+# Tree Shaking
+
+Tree Shaking只将js里import的内容打包，不将import的模块整个内容打包
+
+Tree Shaking只支持ES Module
+
+修改package.json
+
+```json
+{
+  "name": "WebpackDemo",
+  "version": "1.0.0",
+  "description": "",
+  "sideEffects": false,
+  "scripts": {
+...
+```
+
+sideEffects为false时，表示对所有import的模块做Tree Shaking处理
+
+sideEffects为数组，没有为import的内容绑定变量（import 'xx.js'），Tree Shaking遇到这种情况，会忽略，不会打包进来，此时，就需要在sideEffects里配置下sideEffects: ["xx.js"]，css也如此，比如["*.css"]，表示import 'xx.css'不做Tree Shaking处理
+
+新建math.js
+
+```js
+export const add = (a, b) => {
+    console.log(a + b);
+}
+
+export const minus = (a, b) => {
+    console.log(a - b);
+}
+```
+
+修改webpack配置文件
+
+1、mode: 'development'时
+
+```js
+module.exports = {
+    mode: "development",
+    devtool: 'cheap-module-eval-source-map',
+    ...
+    optimization: {
+        usedExports: true
+    }
+}
+```
+
+2、mode: 'production'时
+
+```js
+module.exports = {
+    mode: "production",
+    devtool: 'cheap-module-source-map',
+    ...
+    //optimization: {
+    //    usedExports: true
+    //}
+}
+```
+
