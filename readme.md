@@ -267,7 +267,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: 'src/index.html'
-        })
+        }),
+        ...
     ]
 }
 ```
@@ -290,7 +291,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     ...
     plugins: [
-        new CleanWebpackPlugin(['dist'])
+        new CleanWebpackPlugin({
+            // webpack --watch时，不要移除index.html
+            cleanStaleWebpackAssets: false
+        }),
+        ...
     ]
 }
 ```
