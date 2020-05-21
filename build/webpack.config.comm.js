@@ -95,5 +95,14 @@ module.exports = {
             // webpack --watch时，不要移除index.html
             cleanStaleWebpackAssets: false
         })
-    ]
+    ],
+    optimization: {
+        splitChunks: {
+            chunks: 'async',
+            cacheGroups: {
+                vendors: false,
+                default: false
+            }
+        }
+    }
 }

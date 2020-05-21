@@ -651,3 +651,155 @@ module.exports = {
 }
 ```
 
+# Code Spliting
+
+## 同步
+
+业务代码里同步引入其他模块
+
+```js
+import _ from 'lodash';
+
+...
+```
+
+webpack.config.comm.js
+
+```js
+module.exports = {
+	...
+	optimization: {
+        splitChunks: {
+            chunks: 'initial', // all同步异步；initial同步；async异步
+            cacheGroups: {
+                lodash: {
+                    // 这里经验证配置node_modules下其他模块，则会失效
+                    // 失效时，默认走vendors的配置
+                    // 正常时，生成的文件名：lodash~入口key.js，当然也可以通过filename修改文件名
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10
+                },
+                // nodeModules: {
+                //   test: /[\\/]node_modules[\\/]/,
+                //   priority: -10
+                // },
+                default: false
+            }
+        }
+    }
+}
+```
+
+执行命令
+
+```shell
+npm run bundle
+```
+
+效果图
+
+此图中配置了node_modules下其他模块（test: /[\\\/]node_modules[\\\/]lodash[\\\/]/），结果失效，默认走vendors配置项
+
+![image-20200521101010727](C:\Users\彦博\AppData\Roaming\Typora\typora-user-images\image-20200521101010727.png)
+
+此图中，将vendors名改成了lodash，test只配置到node_modules，lodash配置项有效
+
+![image-20200521101124235](C:\Users\彦博\AppData\Roaming\Typora\typora-user-images\image-20200521101124235.png)
+
+## 异步
+
+修改createHtml.js
+
+```js
+import "../style/index.css";
+import "../style/scssdex.scss";
+import avatar from "../image/avatar.jpg";
+
+function createElement() {
+    return import('lodash').then(({default: _}) => {
+        let dom = document.createElement("div");
+        dom.innerHTML = _.join(["学习webpack","第一天"]," ");
+        dom.classList.add("iconfont");
+        dom.classList.add("icon-xiangmuguanlix");
+        return dom;
+    });
+}
+
+function createImage() {
+    const image = new Image();
+    image.src = avatar;
+    image.classList.add("transcss");
+    document.body.append(image);
+}
+
+export { createElement, createImage };
+```
+
+修改index.js
+
+```js
+...
+//createElement();
+createElement().then(dom => {
+    document.body.appendChild(dom);
+});
+...
+```
+
+编译后，生成了个0.js文件
+
+![image-20200521102157034](C:\Users\彦博\AppData\Roaming\Typora\typora-user-images\image-20200521102157034.png)
+
+修改0.js文件生成的文件名
+
+1、安装@babel/plugin-syntax-dynamic-import
+
+```shell
+npm install --save-dev @babel/plugin-syntax-dynamic-import
+```
+
+2、在.babelrc文件里添加plugin：@babel/plugin-syntax-dynamic-import
+
+```json
+{
+    "presets": [
+       ...
+    ],
+    "plugins": ["@babel/plugin-syntax-dynamic-import"]
+}
+```
+
+3、修改webpack.config.comm.js
+
+```js
+module.exports = {
+	...
+	optimization: {
+        splitChunks: {
+            chunks: 'async',
+            cacheGroups: {
+                // 将vendors设置为false，否则生成的文件名含有vendors
+                vendors: false,
+                default: false
+            }
+        }
+    }
+}
+```
+
+4、修改createHtml.js，魔力注释magic comments
+
+```js
+...
+
+function createElement() {
+    return import(/* webpackChunkName:"lodash" */'lodash').then(({default: _}) => {
+        ...
+    });
+}
+...
+```
+
+5、编译后，文件名由0.js变成lodash.js
+
+![image-20200521104256608](C:\Users\彦博\AppData\Roaming\Typora\typora-user-images\image-20200521104256608.png)
