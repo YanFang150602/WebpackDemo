@@ -19,6 +19,7 @@ const devCfg = {
         new webpack.HotModuleReplacementPlugin()
     ],
     optimization: {
+        // Tree Shaking
         usedExports: true
     }
 }

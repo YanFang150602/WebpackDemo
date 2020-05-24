@@ -663,7 +663,7 @@ import _ from 'lodash';
 ...
 ```
 
-webpack.config.comm.js
+webpack.config.comm.js增加optimization.splitChunks配置
 
 ```js
 module.exports = {
@@ -674,7 +674,7 @@ module.exports = {
             cacheGroups: {
                 lodash: {
                     // 这里经验证配置node_modules下其他模块，则会失效
-                    // 失效时，默认走vendors的配置
+                    // 失效时，走默认的name:'vendors'的cacheGroup（可以再配置个name:'vendor'的cacheGroup）
                     // 正常时，生成的文件名：lodash~入口key.js，当然也可以通过filename修改文件名
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10
@@ -776,7 +776,7 @@ module.exports = {
 	...
 	optimization: {
         splitChunks: {
-            chunks: 'async',
+            chunks: 'async',// 针对异步引入的模块进行代码分割
             cacheGroups: {
                 // 将vendors设置为false，否则生成的文件名含有vendors
                 vendors: false,

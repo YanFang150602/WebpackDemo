@@ -98,10 +98,34 @@ module.exports = {
     ],
     optimization: {
         splitChunks: {
-            chunks: 'async',
+            chunks: 'all',
+            minSize: 30000,
+            maxSize: 0,
+            // 被多少个打包生成的文件给引用了
+            minChunks: 1,
+            maxAsyncRequests: 6,
+            maxInitialRequests: 4,
+            automaticNameDelimiter: '_',
             cacheGroups: {
-                vendors: false,
-                default: false
+                // 自定义个vendor的cacheGroup，分割node_modules下指定的模块
+                react: {
+                    test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                    priority: -5,
+                    name: 'vendor',
+                    chunks: 'all',
+                    filename: 'react.vendor.js'
+                },
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    filename: 'vendors.js'
+                },
+                default: {
+                    // minChunks: 2,
+                    minSize: 1000,
+                    priority: -20,
+                    reuseExistingChunk: true
+                }
             }
         }
     }
