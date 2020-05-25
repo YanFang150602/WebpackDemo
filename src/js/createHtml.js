@@ -1,4 +1,3 @@
-// import _ from "loadsh";
 import "../style/index.css";
 import "../style/scssdex.scss";
 import avatar from "../image/avatar.jpg";

@@ -1,7 +1,7 @@
 //import '@babel/polyfill'; //useBuiltIns:'entry'
 import _ from 'lodash';
-import $ from 'jquery';
 import { createElement, createImage} from './js/createHtml';
+import createObjectHandler from './js/lazyLoad';
 import counter from './js/counter';
 import number from './js/number';
 import babelES6 from './js/es6';
@@ -10,15 +10,12 @@ import App from './jsx/app.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-console.log("测试watch>>>",$);
+console.log("测试watch>>>");
 console.log("运行的环境是：" + process.env.NODE_ENV);
 
-createElement();
-// 验证异步import
-// createElement().then(dom => {
-//     document.body.appendChild(dom);
-// }); 
+createElement(); 
 createImage();
+createObjectHandler();
 counter();
 number();
 

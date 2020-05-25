@@ -113,12 +113,13 @@ module.exports = {
                     priority: -5,
                     name: 'vendor',
                     chunks: 'all',
-                    filename: 'react.vendor.js'
+                    // 在webpack-dev-server时，会报错
+                    // filename: 'react.vendor.js'
                 },
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
-                    filename: 'vendors.js'
+                    // filename: 'vendors.js'
                 },
                 default: {
                     // minChunks: 2,
