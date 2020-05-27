@@ -9,7 +9,8 @@ module.exports = {
         index: './src/index.js'
     },
     output: {
-        // chunkFilename: '[id].js',
+        // 与optimization.splitChunks分割出来的js的文件名有关，其中name是cacheGroup里的名字
+        chunkFilename: '[name].output.chunk.js',
         filename: '[name].js',
         // publicPath: 'http://www.cdn.com.cn',
         path: path.resolve(__dirname, '../dist')
@@ -97,6 +98,8 @@ module.exports = {
         })
     ],
     optimization: {
+        // Tree Shaking
+        usedExports: true,
         splitChunks: {
             chunks: 'all',
             minSize: 30000,
@@ -116,12 +119,12 @@ module.exports = {
                     // 在webpack-dev-server时，会报错
                     // filename: 'react.vendor.js'
                 },
-                vendors: {
+                thirdPart: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
                     // filename: 'vendors.js'
                 },
-                default: {
+                common: {
                     // minChunks: 2,
                     minSize: 1000,
                     priority: -20,
