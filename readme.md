@@ -893,3 +893,99 @@ createObjectHandler();
 ...
 ```
 
+# css文件代码分割
+
+## mini-css-extract-plugin
+
+```shell
+npm install --save-dev mini-css-extract-plugin
+```
+
+推荐与css-loader结合使用
+
+将css、scss文件的rules从webpack.config.common.js移除，添加到webpack.config.dev.js文件中
+
+修改webpack.config.prod.js
+
+```js
+...
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const prodCfg = {
+	...
+	module: {
+		rules: [
+			{
+                test: /\.css$/,
+                use:[
+                    MiniCssExtractPlugin.loader, 
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1
+                        }
+                    },
+                    'postcss-loader'
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use:[
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2
+                        }
+                    },
+                    'postcss-loader',
+                    'sass-loader'
+                ]
+            }
+		]
+	},
+    plugins: [
+        new MiniCssExtractPlugin({})
+    ]
+}
+
+...
+```
+
+修改package.json
+
+```json
+{
+	...
+	"sideEffects": [
+   		"*.css"
+  	],
+  	"scripts": {
+  		...
+  	}
+  	...
+}
+```
+
+## optimize-css-assets-webpack-plugin
+
+```shell
+npm install optimize-css-assets-webpack-plugin --save-dev
+```
+
+修改webpack.config.prod.js文件
+
+```js
+...
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+
+const prodCfg = {
+	...
+	optimization: {
+        minimizer: [
+            new OptimizeCssAssetsWebpackPlugin({})
+        ]
+    }
+}
+```
+

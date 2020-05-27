@@ -15,6 +15,38 @@ const devCfg = {
         hot: true,       // 开启热模块功能
         //hotOnly: true    // 配置hotOnly: true时，编译后不刷新页面
     },
+    module: {
+        rules: [
+            
+            {
+                test: /\.css$/,
+                use:[
+                    'style-loader', 
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1
+                        }
+                    },
+                    'postcss-loader'
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use:[
+                    'style-loader', 
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2
+                        }
+                    },
+                    'postcss-loader',
+                    'sass-loader'
+                ]
+            }
+        ]
+    },
     plugins: [
         new webpack.HotModuleReplacementPlugin()
     ]

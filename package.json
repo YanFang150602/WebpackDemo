@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "bundle": "webpack --config ./build/webpack.config.dev.js",
     "watch": "webpack --watch --config ./build/webpack.config.dev.js",
@@ -29,7 +31,9 @@
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
