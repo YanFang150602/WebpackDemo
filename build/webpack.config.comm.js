@@ -8,13 +8,13 @@ module.exports = {
     entry: {
         index: './src/index.js'
     },
-    output: {
-        // 与optimization.splitChunks分割出来的js的文件名有关，其中name是cacheGroup里的名字
-        chunkFilename: '[name].output.chunk.js',
-        filename: '[name].js',
-        // publicPath: 'http://www.cdn.com.cn',
-        path: path.resolve(__dirname, '../dist')
-    },
+    // output: {
+    //     // 与optimization.splitChunks分割出来的js的文件名有关，其中name是cacheGroup里的名字
+    //     chunkFilename: '[name].output.chunk.js',
+    //     filename: '[name].js',
+    //     // publicPath: 'http://www.cdn.com.cn',
+    //     path: path.resolve(__dirname, '../dist')
+    // },
     module: {
         rules: [
             // {
@@ -105,5 +105,8 @@ module.exports = {
                 }
             }
         }
+    },
+    performance: {
+        hints: false
     }
 }

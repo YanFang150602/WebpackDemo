@@ -983,9 +983,46 @@ const prodCfg = {
 	...
 	optimization: {
         minimizer: [
-            new OptimizeCssAssetsWebpackPlugin({})
+            new OptimizeCssAssetsWebpackPlugin({}) // 压缩提取出来的CSS文件
         ]
     }
+}
+```
+
+# performance
+
+## hints：false
+
+可以关闭webpack在编译时，出现的warning提示
+
+# webpack与浏览器缓存
+
+修改webpack的配置文件里output选项
+
+```js
+module.exports = {
+	...
+	output: {
+		filename: '[name].[contenthash].js',
+		chunkFilename: '[name].[contenthash].js'
+	},
+	...
+}
+```
+
+contenthash，当文件修改后，webpack编译给出的一串hash值，若文件没有修改，contenthash不变
+
+注意：编译出来的文件，存在manifact，会导致，文件没有修改，仍会出现contenthash发生变化，此时可以在webpack配置文件里增加optimization.runtimeChunk选项
+
+```js
+module.exports = {
+	...
+	optimization: {
+		runtimeChunk: {
+            name: 'runtime'
+        },
+		...
+	}
 }
 ```
 

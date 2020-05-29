@@ -6,6 +6,10 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 const prodCfg = {
     mode: 'production',
     devtool: 'cheap-module-source-map',
+    output: {
+        filename: '[name].[contenthash].js',
+        chunkFilename: '[name].[contenthash].chunk.js'
+    },
     module: {
         rules: [
             {
@@ -39,8 +43,11 @@ const prodCfg = {
     },
     optimization: {
         minimizer: [
-            new OptimizeCssAssetsWebpackPlugin({})
-        ]
+            new OptimizeCssAssetsWebpackPlugin({}) // 压缩提取出来的CSS文件
+        ],
+        runtimeChunk: {
+            name: 'runtime'
+        }
     },
     plugins: [
         new MiniCssExtractPlugin({})
