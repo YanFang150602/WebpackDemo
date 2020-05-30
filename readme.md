@@ -1051,6 +1051,8 @@ export default testShimming2;
 ```
 
 ```js
+// 备份index.js文件，重写index.js文件
+
 import testShimming from './js/shimming';
 import testShimming2 from './js/shimming2';
 
@@ -1059,14 +1061,50 @@ testShimming2();
 ```
 
 ```js
+// 修改webpack的comm配置文件
+
 module.exports = {
 	...
 	plugins: [
 		...
         new webpack.ProvidePlugin({
-            $: 'jquery'
+            $: 'jquery'	// 自动在使用$的模块里自动import 'jquery'
         }),
     ]
 }
+```
+
+# webpack的env环境变量配置
+
+```JS
+const merge = require('webpack-merge');
+const commCfg = require('./webpack.config.comm');
+
+// 传递给module.exports不是一个{}对象，而是一个函数，并带有env参数
+module.exports = (env) => {
+    console.log(env);
+    
+    const devCfg = {
+        mode: JSON.stringify(env.NODE_ENV),
+        devtool: 'cheap-module-eval-source-map',
+        devServer: {
+            contentBase: './dist',
+            port: '8082',
+            open: true
+        }
+    };
+
+    return merge(commCfg, devCfg);
+}
+```
+
+```json
+// package.json里传递--env.NODE_ENV环境变量
+
+"scripts": {
+    "dev": "webpack --config ./build/webpack.config.dev.js",
+    "bundle": "webpack --env.NODE_ENV=development --config ./build/webpack.config.js"
+}
+
 ```
 

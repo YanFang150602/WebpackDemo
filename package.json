@@ -7,13 +7,13 @@
     "*.css"
   ],
   "scripts": {
-    "bundle": "webpack --config ./build/webpack.config.dev.js",
+    "dev": "webpack --config ./build/webpack.config.dev.js",
     "watch": "webpack --watch --config ./build/webpack.config.dev.js",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.config.dev.js",
-    "start2": "cross-env NODE_ENV=development webpack-dev-server --env.NODE_ENV=development --config ./build/webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack  --config ./build/webpack.config.prod.js",
     "server": "node server.js",
-    "dev": "cross-env NODE_ENV=development webpack --env.NODE_ENV=development --config ./build/webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack  --config ./build/webpack.config.prod.js"
+    "bundle": "webpack --env.NODE_ENV=development --config ./build/webpack.config.js",
+    "start2": "webpack-dev-server --env.NODE_ENV=development --config ./build/webpack.config.js"
   },
   "keywords": [],
   "author": "",
