@@ -1026,3 +1026,47 @@ module.exports = {
 }
 ```
 
+# Shimming
+
+## webpack.ProviderPlugin
+
+```js
+// 新增shimming.js
+
+function testShimming() {
+    $('body').text('test shimming...');
+}
+
+export default testShimming;
+
+
+// 新增shimming2.js
+
+function testShimming2() {
+    const div = $('<div></div>').text('test shiming2......');
+    $('body').append(div);
+}
+
+export default testShimming2;
+```
+
+```js
+import testShimming from './js/shimming';
+import testShimming2 from './js/shimming2';
+
+testShimming();
+testShimming2();
+```
+
+```js
+module.exports = {
+	...
+	plugins: [
+		...
+        new webpack.ProvidePlugin({
+            $: 'jquery'
+        }),
+    ]
+}
+```
+
