@@ -1099,12 +1099,157 @@ module.exports = (env) => {
 ```
 
 ```json
-// package.json里传递--env.NODE_ENV环境变量
+// package.json里传递--env.NODE_ENV环境变量，webpack配置文件有用到
 
 "scripts": {
     "dev": "webpack --config ./build/webpack.config.dev.js",
     "bundle": "webpack --env.NODE_ENV=development --config ./build/webpack.config.js"
 }
-
 ```
+
+# library打包
+
+新建了个library目录
+
+```js
+// math.js
+
+export const add = (a, b) => {
+    console.log(a + b);
+}
+
+export const minus = (a, b) => {
+    console.log(a - b);
+}
+
+export const mulity = (a, b) => {
+    console.log(a * b);
+}
+
+export const divi = (a, b) => {
+    console.log(a / b);
+}
+
+// string.js
+
+export const join = (a , b) => {
+    return a + ' ' + b;
+}
+
+// index.js
+
+import * as math from './math';
+import * as string from './string';
+
+export default {math, string};
+```
+
+新建个webpack配置文件
+
+```js
+// webpack.config.lib.js
+
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    mode: 'development',
+    entry: './src/library/index.js',
+    output: {
+        filename: 'library.js',
+        path: path.resolve(__dirname, '../lib_dist'),
+        library: 'root',
+        libraryTarget: 'umd'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader'
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'src/library/index.html'
+        })
+    ]
+}
+```
+
+在package.json添加个编译脚本
+
+```json
+"lib": "webpack --config ./build/webpack.config.lib.js"
+```
+
+## externals
+
+```js
+// 修改webpack.config.lib.js
+
+module.exports = {
+	...
+    // externals: ['lodash'],
+    externals: {
+        lodash: {
+            commonjs: 'lodash',
+            commonjs2: 'lodash',
+            amd: 'lodash',
+            root: '_'
+        }
+    },
+	...
+}
+```
+
+```js
+// string.js里引入lodash
+
+import _ from 'lodash';
+
+export const join = (a , b) => {
+    return _.join([a, b], ' ');
+}
+```
+
+externals，webpack在打包时，遇到lodash，将其不要打包进来
+
+commonjs、amd这些都是表示了使用lodash的环境（require('lodash'); import _ from 'lodash'）
+
+
+
+# 2
+
+
+
+# 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
