@@ -172,6 +172,7 @@ git add .
 # 由暂存区提交到版本库
 git commit -m "描述"
 # 将本地提交的代码上传到远程仓上
+git push --set-upstream origin master
 git push
 git push origin master
 git push -u origin master
